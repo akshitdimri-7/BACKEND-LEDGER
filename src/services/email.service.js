@@ -51,4 +51,102 @@ We're excited to have you on board!\n\nBest regards,\nThe Backend Ledger Team`;
   await sendEmail(userEmail, subject, text, html);
 }
 
-module.exports = { sendRegistrationEmail };
+async function sendTransactionEmail(
+  userEmail,
+  name,
+  account,
+  toAccount,
+  amount,
+) {
+  const subject = "Transaction Successful - Backend Ledger";
+
+  const text = `Hello ${name},
+
+Your transaction has been completed successfully.
+
+From Account: ${account}
+To Account: ${toAccount}
+Amount: ₹${amount}
+
+Thank you for using Backend Ledger.
+
+Best regards,
+The Backend Ledger Team`;
+
+  const html = `
+    <p>Hello ${name},</p>
+
+    <p>Your transaction has been completed successfully.</p>
+
+    <ul>
+      <li><strong>From Account:</strong> ${account}</li>
+      <li><strong>To Account:</strong> ${toAccount}</li>
+      <li><strong>Amount:</strong> ₹${amount}</li>
+    </ul>
+
+    <p>Thank you for using Backend Ledger.</p>
+
+    <p>
+      Best regards,<br>
+      The Backend Ledger Team
+    </p>
+  `;
+
+  await sendEmail(userEmail, subject, text, html);
+}
+
+async function sendTransactionFailureEmail(userEmail, name, amount, toAccount) {
+  const subject = "Transaction Failed - Backend Ledger";
+
+  const text = `Hello ${name},
+
+We were unable to process your transaction.
+
+Amount: ₹${amount}
+Recipient Account: ${toAccount}
+
+Possible reasons:
+- Insufficient balance
+- Invalid recipient account
+- Transaction restrictions
+- Temporary server issue
+
+Please review the details and try again.
+
+Best regards,
+The Backend Ledger Team`;
+
+  const html = `
+    <p>Hello ${name},</p>
+
+    <p>We were unable to process your transaction.</p>
+
+    <ul>
+      <li><strong>Amount:</strong> ₹${amount}</li>
+      <li><strong>Recipient Account:</strong> ${toAccount}</li>
+    </ul>
+
+    <p><strong>Possible reasons:</strong></p>
+
+    <ul>
+      <li>Insufficient balance</li>
+      <li>Invalid recipient account</li>
+      <li>Transaction restrictions</li>
+      <li>Temporary server issue</li>
+    </ul>
+
+    <p>Please review the details and try again.</p>
+
+    <p>
+      Best regards,<br>
+      The Backend Ledger Team
+    </p>
+  `;
+
+  await sendEmail(userEmail, subject, text, html);
+}
+module.exports = {
+  sendRegistrationEmail,
+  sendTransactionEmail,
+  sendTransactionFailureEmail,
+};
