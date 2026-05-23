@@ -10,4 +10,10 @@ router.post(
   accountController.createAccountController,
 );
 
+router.get(
+  "/",
+  authMiddleware.authMiddleware,
+  accountController.getUserAccountController,
+);
+
 module.exports = router;

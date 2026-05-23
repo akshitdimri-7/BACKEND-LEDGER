@@ -8,11 +8,13 @@ const ledgerSchema = new mongoose.Schema({
     index: true,
     immutable: true,
   },
+
   amount: {
     type: Number,
     required: [true, "Amount is required for creating a ledger entry."],
     min: [0, "Transaction amount cannot be negative."],
   },
+
   transaction: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Transaction",
@@ -20,14 +22,15 @@ const ledgerSchema = new mongoose.Schema({
     index: true,
     immutable: true,
   },
+
   type: {
     type: String,
     enum: {
       values: ["CREDIT", "DEBIT"],
       message: "Type can either be debit or credit.",
-      required: [true, "Ledger type is required"],
-      immutable: true,
     },
+    required: [true, "Ledger type is required"],
+    immutable: true,
   },
 });
 
@@ -44,3 +47,7 @@ ledgerSchema.pre("remove", preventLedgerModification);
 ledgerSchema.pre("deleteMany", preventLedgerModification);
 ledgerSchema.pre("findOneAndDelete", preventLedgerModification);
 ledgerSchema.pre("findOneAndReplace", preventLedgerModification);
+
+const ledgerModel = mongoose.model("Ledger", ledgerSchema);
+
+module.exports = ledgerModel;

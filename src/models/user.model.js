@@ -22,6 +22,12 @@ const userSchema = new mongoose.Schema(
       minLength: [6, "Password must be greater than 5 characters."],
       select: false,
     },
+    systemUser: {
+      type: Boolean,
+      default: false,
+      immutable: true,
+      select: false,
+    },
   },
   {
     timestamps: true,
